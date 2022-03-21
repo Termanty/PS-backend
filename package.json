@@ -1,0 +1,16 @@
+{
+  "name": "ps-backend",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "team 6",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
