@@ -1,2 +1,15 @@
-node_modules/
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
 .env
+.env.*
+
+npm-debug.log*
