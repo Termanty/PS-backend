@@ -78,3 +78,5 @@ To populate database with data we use seed files. All seed files are in seeds fo
 ```
 knex seed:run
 ```
+
+Now you can see users table data from browser using url http://localhost:3001/users if you server is running.

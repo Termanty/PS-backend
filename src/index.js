@@ -21,6 +21,18 @@ app.get("/", (req, res) => {
   res.send("hello happy net promoter score users");
 });
 
+app.get("/users", (req, res) =>
+  knex
+    .from("users")
+    .select()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+);
+
 app.listen(port, () => {
   console.log("App listening on port", port);
 });
