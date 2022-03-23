@@ -45,6 +45,18 @@ app.get("/questionnaires", (req, res) =>
     })
 );
 
+app.get("/responses", (req, res) =>
+  knex
+    .from("responses")
+    .select()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+);
+
 app.listen(port, () => {
   console.log("App listening on port", port);
 });
