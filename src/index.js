@@ -33,6 +33,18 @@ app.get("/users", (req, res) =>
     })
 );
 
+app.get("/questionnaires", (req, res) =>
+  knex
+    .from("questionnaires")
+    .select()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    })
+);
+
 app.listen(port, () => {
   console.log("App listening on port", port);
 });
