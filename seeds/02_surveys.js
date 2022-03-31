@@ -10,8 +10,8 @@ const id_2 = "b1e5ff6a-6337-4616-b8e0-a9a6e388c6f6";
 const id_3 = "b0ba43d1-bbf2-477d-8053-a7f4eff7444a";
 
 exports.seed = async function (knex) {
-  await knex("questionnaires").del();
-  await knex("questionnaires").insert([
+  await knex("surveys").del();
+  await knex("surveys").insert([
     {
       id: id_1,
       user_id: id_user_1,
