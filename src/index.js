@@ -1,6 +1,8 @@
 "use strick";
 
 const express = require("express");
+const cors = require("cors");
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const knex = require("knex")({
@@ -15,7 +17,8 @@ const knex = require("knex")({
 });
 
 const app = express();
-const port = process.env.APP_PORT;
+app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("hello happy net promoter score users");
@@ -26,12 +29,35 @@ app.get("/users", (req, res) =>
     .from("users")
     .select()
     .then((data) => {
+      console.log(data);
       res.json(data);
     })
     .catch((err) => {
+      console.log(err);
       res.json(err);
     })
 );
+
+app.post("/users", async (req, res) => {
+  const { name, email, password } = req.body;
+  console.log(req.body);
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+
+  const userData = {
+    name,
+    email,
+    password: passwordHash,
+  };
+
+  try {
+    const user = await knex("users").insert(userData);
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
+});
 
 app.get("/users/:id/surveys", (req, res) => {
   const userId = req.params.id;
@@ -71,6 +97,7 @@ app.get("/responses", (req, res) =>
     })
 );
 
+const port = process.env.APP_PORT;
 app.listen(port, () => {
   console.log("App listening on port", port);
 });
