@@ -12,6 +12,7 @@
   "author": "team 6",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
