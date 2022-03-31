@@ -33,9 +33,23 @@ app.get("/users", (req, res) =>
     })
 );
 
-app.get("/questionnaires", (req, res) =>
+app.get("/users/:id/surveys", (req, res) => {
+  const userId = req.params.id;
   knex
-    .from("questionnaires")
+    .from("surveys")
+    .select()
+    .where("user_id", userId)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+app.get("/surveys", (req, res) =>
+  knex
+    .from("surveys")
     .select()
     .then((data) => {
       res.json(data);
