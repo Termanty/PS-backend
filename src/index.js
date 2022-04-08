@@ -97,6 +97,23 @@ app.get("/responses", (req, res) =>
     })
 );
 
+app.post("/responses", (req, res) => {
+  const { surveyId, score, comment } = req.body;
+  const responseData = {
+    survey_id: surveyId,
+    score,
+    comment,
+  };
+  knex("responses")
+    .insert(responseData)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 const port = process.env.APP_PORT;
 app.listen(port, () => {
   console.log("App listening on port", port);
