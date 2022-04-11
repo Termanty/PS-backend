@@ -2,6 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const logger = require("./utils/logger");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -24,22 +25,25 @@ app.get("/", (req, res) => {
   res.send("hello happy net promoter score users");
 });
 
-app.get("/api/users", (req, res) =>
+app.get("/api/users", (req, res) => {
+  logger.info("GET /api/users");
   knex
     .from("users")
     .select()
     .then((data) => {
-      console.log(data);
       res.json(data);
     })
     .catch((err) => {
-      console.log(err);
+      logger.error(err);
       res.json(err);
-    })
-);
+    });
+});
 
 app.post("/api/users", async (req, res) => {
   const { name, email, password } = req.body;
+  logger.info(
+    `POST /api/users body={name:${name}, email:${email}, password:${password}}`
+  );
   console.log(req.body);
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
@@ -54,13 +58,14 @@ app.post("/api/users", async (req, res) => {
     const user = await knex("users").insert(userData);
     res.json(user);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.json(err);
   }
 });
 
 app.get("/api/users/:id/surveys", (req, res) => {
   const userId = req.params.id;
+  logger.info(`GET /api/users/${userId}/surveys`);
   knex
     .from("surveys")
     .select()
@@ -69,11 +74,13 @@ app.get("/api/users/:id/surveys", (req, res) => {
       res.json(data);
     })
     .catch((err) => {
+      logger.error(err);
       res.json(err);
     });
 });
 
-app.get("/api/surveys", (req, res) =>
+app.get("/api/surveys", (req, res) => {
+  logger.info("GET /api/surveys");
   knex
     .from("surveys")
     .select()
@@ -81,11 +88,13 @@ app.get("/api/surveys", (req, res) =>
       res.json(data);
     })
     .catch((err) => {
+      logger.error(err);
       res.json(err);
-    })
-);
+    });
+});
 
-app.get("/api/responses", (req, res) =>
+app.get("/api/responses", (req, res) => {
+  logger.info("GET /api/responses");
   knex
     .from("responses")
     .select()
@@ -93,30 +102,31 @@ app.get("/api/responses", (req, res) =>
       res.json(data);
     })
     .catch((err) => {
+      logger.error(err);
       res.json(err);
-    })
-);
+    });
+});
 
-app.post("/api/responses", (req, res) => {
+app.post("/api/responses", async (req, res) => {
   const { surveyId, score, comment } = req.body;
-  console.log("post response");
-  console.log(req.body);
+  logger.info(
+    `POST /api/responses body={surveyId:${surveyId}, score:${score}, comment:${comment}}`
+  );
   const responseData = {
     survey_id: surveyId,
     score,
     comment,
   };
-  knex("responses")
-    .insert(responseData)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+  try {
+    const response = knex("responses").insert(responseData);
+    res.json(response);
+  } catch (err) {
+    logger.error(err);
+    res.json(err);
+  }
 });
 
 const port = process.env.APP_PORT;
 app.listen(port, () => {
-  console.log("App listening on port", port);
+  logger.info("App listening on port", port);
 });
