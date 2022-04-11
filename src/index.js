@@ -99,6 +99,8 @@ app.get("/responses", (req, res) =>
 
 app.post("/responses", (req, res) => {
   const { surveyId, score, comment } = req.body;
+  console.log("post response");
+  console.log(req.body);
   const responseData = {
     survey_id: surveyId,
     score,
