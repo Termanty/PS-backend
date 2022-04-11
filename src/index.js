@@ -2,18 +2,18 @@
 
 const express = require("express");
 const cors = require("cors");
+const config = require("./utils/config");
 const logger = require("./utils/logger");
 const bcrypt = require("bcrypt");
-require("dotenv").config();
 
 const knex = require("knex")({
   client: "mysql",
   connection: {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: config.DB_HOST,
+    port: config.DB_PORT,
+    user: config.DB_USER,
+    password: config.DB_PASSWORD,
+    database: config.DB_NAME,
   },
 });
 
@@ -126,7 +126,7 @@ app.post("/api/responses", async (req, res) => {
   }
 });
 
-const port = process.env.APP_PORT;
+const port = config.PORT;
 app.listen(port, () => {
   logger.info("App listening on port", port);
 });
