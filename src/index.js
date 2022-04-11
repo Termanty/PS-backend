@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
   res.send("hello happy net promoter score users");
 });
 
-app.get("/users", (req, res) =>
+app.get("/api/users", (req, res) =>
   knex
     .from("users")
     .select()
@@ -38,7 +38,7 @@ app.get("/users", (req, res) =>
     })
 );
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   const { name, email, password } = req.body;
   console.log(req.body);
   const saltRounds = 10;
@@ -59,7 +59,7 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/users/:id/surveys", (req, res) => {
+app.get("/api/users/:id/surveys", (req, res) => {
   const userId = req.params.id;
   knex
     .from("surveys")
@@ -73,7 +73,7 @@ app.get("/users/:id/surveys", (req, res) => {
     });
 });
 
-app.get("/surveys", (req, res) =>
+app.get("/api/surveys", (req, res) =>
   knex
     .from("surveys")
     .select()
@@ -85,7 +85,7 @@ app.get("/surveys", (req, res) =>
     })
 );
 
-app.get("/responses", (req, res) =>
+app.get("/api/responses", (req, res) =>
   knex
     .from("responses")
     .select()
@@ -97,7 +97,7 @@ app.get("/responses", (req, res) =>
     })
 );
 
-app.post("/responses", (req, res) => {
+app.post("/api/responses", (req, res) => {
   const { surveyId, score, comment } = req.body;
   console.log("post response");
   console.log(req.body);
