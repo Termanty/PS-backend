@@ -27,4 +27,20 @@ surveysRouter.get("/", (req, res) => {
     });
 });
 
+surveysRouter.get("/:id/responses", (req, res) => {
+  const survey_id = req.params.id;
+  logger.info(`GET /api/surveys/${survey_id}/responses`);
+  knex
+    .from("responses")
+    .select()
+    .where("survey_id", survey_id)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      logger.error(err);
+      res.json(err);
+    });
+});
+
 module.exports = surveysRouter;
