@@ -1,4 +1,5 @@
 const surveysRouter = require("express").Router();
+const crypto = require("crypto");
 const logger = require("../utils/logger");
 
 const config = require("../utils/config");
@@ -41,6 +42,23 @@ surveysRouter.get("/:id/responses", (req, res) => {
       logger.error(err);
       res.json(err);
     });
+});
+
+surveysRouter.post("/", (req, res) => {
+  const { name, surveyText } = req.body;
+  logger.info(`POST /api/surveys body={name:${name}, text:${surveyText}}`);
+  const newSurvey = {
+    id: crypto.randomUUID(),
+    name,
+    surveyText,
+  };
+  try {
+    const survey = knex("surveys").insert(newSurvey);
+    res.json(survey);
+  } catch (err) {
+    logger.error(err);
+    res.json(err);
+  }
 });
 
 module.exports = surveysRouter;
