@@ -44,17 +44,21 @@ surveysRouter.get("/:id/responses", (req, res) => {
     });
 });
 
-surveysRouter.post("/", (req, res) => {
-  const { name, surveyText } = req.body;
-  logger.info(`POST /api/surveys body={name:${name}, text:${surveyText}}`);
-  const newSurvey = {
-    id: crypto.randomUUID(),
+surveysRouter.post("/", async (req, res) => {
+  const { name, text } = req.body;
+  logger.info(`POST /api/surveys body={name:${name}, text:${text}}`);
+
+  const uuid = crypto.randomUUID();
+  const survey = {
+    id: uuid,
+    user_id: "531b286f-1307-4c3b-8f7b-95ca95445428",
     name,
-    surveyText,
+    question_text: text,
   };
+
   try {
-    const survey = knex("surveys").insert(newSurvey);
-    res.json(survey);
+    await knex("surveys").insert(survey);
+    res.json(uuid);
   } catch (err) {
     logger.error(err);
     res.json(err);

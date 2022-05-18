@@ -38,8 +38,8 @@ responsesRouter.post("/", async (req, res) => {
     comment,
   };
   try {
-    const response = knex("responses").insert(responseData);
-    res.json(response);
+    const response = await knex("responses").insert(responseData);
+    res.json(response[0]);
   } catch (err) {
     logger.error(err);
     res.json(err);
