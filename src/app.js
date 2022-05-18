@@ -14,10 +14,20 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("hello happy net promoter score users");
 });
+app.use(express.static("public"));
 
 app.use("/users", usersRouter);
 app.use("/surveys", surveysRouter);
 app.use("/responses", responsesRouter);
+app.get("/popupsurvey", (req, res) => {
+  console.log("pupupsurvey");
+  res.sendFile(`${__dirname}/popup-survey/survey.html`, (err) => {
+    if (err) {
+      console.log(err);
+      res.end(err.message);
+    }
+  });
+});
 
 const port = config.PORT;
 
