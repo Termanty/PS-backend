@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
   res.send("hello happy net promoter score users");
 });
 
-app.use("/api/users", usersRouter);
-app.use("/api/surveys", surveysRouter);
-app.use("/api/responses", responsesRouter);
+app.use("/users", usersRouter);
+app.use("/surveys", surveysRouter);
+app.use("/responses", responsesRouter);
 
 const port = config.PORT;
 

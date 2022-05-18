@@ -45,13 +45,13 @@ surveysRouter.get("/:id/responses", (req, res) => {
 });
 
 surveysRouter.post("/", async (req, res) => {
-  const { name, text } = req.body;
+  const { user_id, name, text } = req.body;
   logger.info(`POST /api/surveys body={name:${name}, text:${text}}`);
 
   const uuid = crypto.randomUUID();
   const survey = {
     id: uuid,
-    user_id: "531b286f-1307-4c3b-8f7b-95ca95445428",
+    user_id,
     name,
     question_text: text,
   };
